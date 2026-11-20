@@ -3,7 +3,7 @@
 <meta name="description" content="Siz uchun alohida taklif">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,500;1,600&display=swap">
 <style>
 /* Layout: one letterpress card centered on a blush ground; each step of the date replaces the card's content. Single deliberate look (no dark variant). */
 :root {
@@ -17,8 +17,8 @@
   --blush: #EBD3D1;
   --line: #E6D9D0;
   --gold: #E9B872;
-  --f-display: "Cormorant Garamond", "Cormorant", Georgia, "Times New Roman", serif;
-  --f-ui: "Manrope", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-display: "Poppins", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-ui: "Poppins", "Segoe UI", system-ui, -apple-system, sans-serif;
   --r-card: 28px;
   --shadow: 0 30px 60px -30px rgba(116, 18, 42, .35), 0 2px 6px rgba(43, 26, 31, .06);
   color-scheme: light;
@@ -87,13 +87,13 @@ button { cursor: pointer; }
 @keyframes enter { from { opacity: 0; transform: translateY(16px) scale(.985); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
 
 .eyebrow {
-  font-size: 10px; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; color: var(--wine);
+  font-size: 10px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--wine);
 }
 .pill {
   align-self: center; display: inline-flex; align-items: center; gap: 6px;
   padding: 6px 14px; border: 1px solid var(--blush); border-radius: 99px; background: rgba(255,255,255,.55);
 }
-.display { font-family: var(--f-display); font-weight: 600; line-height: 1.02; text-wrap: balance; }
+.display { font-family: var(--f-display); font-weight: 600; line-height: 1.12; letter-spacing: -.035em; text-wrap: balance; }
 .muted { color: var(--muted); }
 .center { text-align: center; }
 .grow { flex: 1; }
@@ -115,10 +115,39 @@ button { cursor: pointer; }
 .btn-block { width: 100%; }
 .link-btn { background: none; border: 0; color: var(--muted); font-size: 12px; text-decoration: underline; text-underline-offset: 3px; }
 
+/* ---------- 0b. envelope ---------- */
+#s-env { align-items: center; justify-content: center; text-align: center; gap: 22px; }
+#s-env h2 { font-size: clamp(28px, 8vw, 34px); margin: 0; }
+#s-env p { margin: 0; font-size: 13px; color: var(--muted); }
+.env { position: relative; width: min(280px, 100%); aspect-ratio: 14 / 9; perspective: 1000px; margin: 84px 0 6px; }
+.env > * { position: absolute; }
+.env-back { inset: 0; border-radius: 16px; background: #E4C8C2; box-shadow: 0 30px 40px -24px rgba(116,18,42,.45); }
+.env-paper { left: 16px; right: 16px; top: 12px; bottom: 12px; background: var(--card); border-radius: 10px; z-index: 2;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-top: 18px; gap: 2px;
+  transition: transform .9s cubic-bezier(.3,1.3,.5,1) .45s; }
+.env-paper small { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.env-paper b { font-size: 22px; font-weight: 700; letter-spacing: -.03em; color: var(--wine); }
+.env-front { inset: 0; z-index: 3; border-radius: 16px; background: linear-gradient(160deg, #F4E3DE, #EACFC8);
+  clip-path: polygon(0 0, 50% 58%, 100% 0, 100% 100%, 0 100%); }
+.env-flap { left: 0; right: 0; top: 0; height: 62%; z-index: 4; background: linear-gradient(180deg, #E8CBC4, #DDB6AE);
+  clip-path: polygon(0 0, 100% 0, 50% 100%); transform-origin: top center; transition: transform .7s ease, z-index 0s .35s; border-radius: 16px 16px 0 0; }
+.env-seal { left: 50%; top: 62%; z-index: 5; width: 64px; height: 64px; margin: -32px 0 0 -32px; border-radius: 50%; border: 0;
+  background: radial-gradient(circle at 35% 30%, #C7385A, var(--wine) 55%, var(--wine-deep)); color: #F6D9DF;
+  display: grid; place-items: center; box-shadow: 0 8px 18px -6px rgba(116,18,42,.6), inset 0 -3px 6px rgba(0,0,0,.2);
+  animation: sealPulse 1.8s ease-in-out infinite; transition: transform .4s cubic-bezier(.5,-.6,.7,.4), opacity .4s; }
+.env-seal svg { width: 26px; height: 26px; }
+@keyframes sealPulse { 0%,100% { box-shadow: 0 8px 18px -6px rgba(116,18,42,.6), 0 0 0 0 rgba(155,28,56,.35); } 50% { box-shadow: 0 8px 18px -6px rgba(116,18,42,.6), 0 0 0 14px rgba(155,28,56,0); } }
+.env.open .env-seal { transform: scale(0) rotate(90deg); opacity: 0; }
+.env.open .env-flap { transform: rotateX(180deg); z-index: 1; }
+.env.open .env-paper { transform: translateY(-46%); }
+.hint { font-size: 10px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--wine); animation: blink 1.6s ease-in-out infinite; }
+@keyframes blink { 50% { opacity: .35; } }
+
 /* ---------- 1. intro ---------- */
 #s-intro { align-items: center; text-align: center; gap: 18px; justify-content: center; }
-#s-intro .lead { font-family: var(--f-display); font-style: italic; font-size: 19px; color: var(--muted); margin: 6px 0 -6px; }
-#s-intro h1 { font-family: var(--f-display); font-style: italic; font-weight: 600; color: var(--wine); font-size: clamp(52px, 15vw, 66px); margin: 0; line-height: 1; overflow-wrap: anywhere; }
+#s-intro .lead { font-family: var(--f-display); font-style: italic; font-weight: 300; font-size: 15px; color: var(--muted); margin: 6px 0 -6px; }
+#s-intro h1 { font-family: var(--f-display); font-weight: 700; letter-spacing: -.045em; font-size: clamp(44px, 13vw, 58px); margin: 0; line-height: 1.05; overflow-wrap: anywhere;
+  background: linear-gradient(135deg, #C7385A 0%, var(--wine) 45%, var(--wine-deep) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; padding: 0 4px 4px; }
 .heart-stage { position: relative; width: 170px; height: 160px; display: grid; place-items: center; margin: 4px 0; }
 .heart-stage::before {
   content: ""; position: absolute; inset: 8px; border-radius: 50%;
@@ -137,7 +166,7 @@ button { cursor: pointer; }
 }
 .slider-fill { position: absolute; inset: 0 auto 0 0; width: 0; background: linear-gradient(90deg, #C9506B, var(--wine)); border-radius: 99px; }
 .slider-label {
-  position: absolute; inset: 0; display: grid; place-items: center; font-size: 10px; font-weight: 800;
+  position: absolute; inset: 0; display: grid; place-items: center; font-size: 10px; font-weight: 700;
   letter-spacing: .22em; text-transform: uppercase; color: var(--wine); padding-left: 40px; pointer-events: none;
   background: linear-gradient(90deg, var(--wine) 0%, #E28A9D 50%, var(--wine) 100%); background-size: 200% 100%;
   -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
@@ -163,9 +192,11 @@ button { cursor: pointer; }
   box-shadow: 0 20px 40px -28px rgba(43,26,31,.35); padding: 28px 22px; display: flex; flex-direction: column;
 }
 .ask-box p.sub { font-size: 12.5px; line-height: 1.6; margin: 0; text-align: center; color: var(--muted); }
-.ask-box h2 { font-size: clamp(34px, 9.5vw, 42px); text-align: center; margin: 22px 0 0; }
+.ask-box h2 { font-size: clamp(27px, 7.6vw, 32px); text-align: center; margin: 22px 0 0; }
 .ask-zone { position: relative; flex: 1; min-height: 230px; }
 .ask-row { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); display: flex; justify-content: center; gap: 14px; }
+#btn-yes { animation: haGlow 1.6s ease-out infinite; }
+@keyframes haGlow { 0% { box-shadow: 0 14px 26px -12px rgba(155,28,56,.7), 0 0 0 0 rgba(155,28,56,.45); } 100% { box-shadow: 0 14px 26px -12px rgba(155,28,56,.7), 0 0 0 20px rgba(155,28,56,0); } }
 #btn-yes { min-width: 120px; transform: scale(var(--s, 1)); transition: transform .35s cubic-bezier(.3,1.6,.5,1), background .2s; position: relative; z-index: 2; }
 #btn-no { min-width: 110px; letter-spacing: .04em; text-transform: none; font-weight: 600; font-size: 13px; transition: left .35s cubic-bezier(.3,1.4,.5,1), top .35s cubic-bezier(.3,1.4,.5,1), transform .3s, opacity .3s; }
 #btn-no.loose { position: absolute; z-index: 3; }
@@ -188,8 +219,13 @@ button { cursor: pointer; }
 .seal svg { width: 44px; height: 44px; }
 @keyframes sealIn { from { transform: scale(0) rotate(-30deg); } to { transform: scale(1); } }
 #s-yes .eyebrow { color: rgba(255,255,255,.75); margin-top: 18px; }
-#s-yes h2 { font-style: italic; font-size: clamp(44px, 12vw, 52px); margin: 0; }
+#s-yes h2 { font-size: clamp(36px, 10vw, 42px); margin: 0; }
 #s-yes p { font-size: 13.5px; line-height: 1.6; opacity: .85; max-width: 30ch; margin: 0 0 12px; }
+
+.rise { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: -1; }
+.rise span { position: absolute; bottom: -30px; color: #fff; opacity: 0; animation: rise linear infinite; }
+@keyframes rise { 0% { transform: translateY(0) translateX(0) scale(.6); opacity: 0; } 15% { opacity: .5; } 100% { transform: translateY(-760px) translateX(var(--dx, 20px)) scale(1.1); opacity: 0; } }
+.caret::after { content: ""; display: inline-block; width: 1.5px; height: 1em; background: var(--wine); margin-left: 2px; vertical-align: -2px; animation: blink .8s steps(1) infinite; }
 
 /* ---------- 4/5. steps ---------- */
 .step-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-right: 44px; min-height: 34px; }
@@ -198,7 +234,7 @@ button { cursor: pointer; }
 .progress i.on { width: 22px; background: var(--wine); }
 .back { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; border: 1px solid var(--line); background: var(--card); padding: 6px 12px; border-radius: 99px; }
 .back svg { width: 12px; height: 12px; }
-.step-title { font-size: clamp(34px, 9.5vw, 40px); margin: 18px 0 6px; }
+.step-title { font-size: clamp(27px, 7.6vw, 31px); margin: 18px 0 6px; }
 .label { font-size: 10px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin: 16px 0 10px; }
 .options { display: flex; flex-direction: column; gap: 10px; }
 .opt {
@@ -207,7 +243,7 @@ button { cursor: pointer; }
 }
 .opt:hover { border-color: var(--blush); transform: translateY(-1px); }
 .opt .t { flex: 1; min-width: 0; }
-.opt b { display: block; font-family: var(--f-display); font-size: 18px; font-weight: 600; }
+.opt b { display: block; font-family: var(--f-display); font-size: 14.5px; font-weight: 600; letter-spacing: -.01em; }
 .opt small { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); margin-top: 2px; font-variant-numeric: tabular-nums; }
 .opt small svg { width: 11px; height: 11px; }
 .radio { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--blush); flex: none; display: grid; place-items: center; transition: all .25s; }
@@ -237,14 +273,14 @@ textarea.field { resize: none; min-height: 76px; line-height: 1.5; }
 .chosen {
   display: flex; align-items: center; gap: 10px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 12px 16px;
 }
-.chosen b { font-family: var(--f-display); font-size: 17px; display: block; }
+.chosen b { font-family: var(--f-display); font-size: 14.5px; font-weight: 600; display: block; }
 .chosen small { font-size: 11px; color: var(--muted); }
 .count { text-align: right; font-size: 10px; color: var(--muted); margin-top: 4px; font-variant-numeric: tabular-nums; }
 .step-foot { margin-top: auto; padding-top: 18px; }
 
 /* ---------- 6. letter ---------- */
 #s-letter { gap: 16px; }
-#s-letter h2 { font-style: italic; color: var(--wine); font-size: clamp(34px, 9.5vw, 40px); text-align: center; margin: 4px 0 0; }
+#s-letter h2 { color: var(--wine); font-size: clamp(26px, 7.4vw, 30px); text-align: center; margin: 4px 0 0; }
 .letter {
   position: relative; background: var(--card); border-radius: 22px; border: 1px solid var(--line); padding: 24px 22px 22px;
   box-shadow: 0 24px 40px -28px rgba(43,26,31,.4);
@@ -257,15 +293,15 @@ textarea.field { resize: none; min-height: 76px; line-height: 1.5; }
   display: grid; place-items: center; color: var(--wine);
 }
 .letter .stamp svg { width: 20px; height: 20px; }
-.letter h3 { font-family: var(--f-display); font-size: 22px; margin: 0 0 10px; }
+.letter h3 { font-family: var(--f-display); font-size: 18px; font-weight: 600; letter-spacing: -.02em; margin: 0 0 10px; }
 .letter p { font-size: 12.5px; line-height: 1.65; color: var(--muted); margin: 0; }
 .facts { background: var(--paper); border-radius: 14px; padding: 12px 14px; margin: 14px 0; display: grid; gap: 8px; }
 .facts div { display: flex; align-items: flex-start; gap: 10px; font-size: 12.5px; font-weight: 600; }
 .facts svg { width: 14px; height: 14px; color: var(--wine); flex: none; margin-top: 1px; }
-.sign { font-family: var(--f-display); font-style: italic; font-size: 20px; color: var(--wine); margin-top: 14px; }
+.sign { font-family: var(--f-display); font-style: italic; font-weight: 500; font-size: 16px; color: var(--wine); margin-top: 14px; }
 .countdown { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; text-align: center; }
 .countdown div { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 8px 4px; }
-.countdown b { display: block; font-family: var(--f-display); font-size: 26px; color: var(--wine); font-variant-numeric: tabular-nums; line-height: 1.1; }
+.countdown b { display: block; font-family: var(--f-display); font-weight: 600; font-size: 22px; color: var(--wine); font-variant-numeric: tabular-nums; line-height: 1.1; }
 .countdown span { font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
 .actions { display: grid; gap: 10px; }
 .actions-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -282,7 +318,7 @@ a.btn { text-decoration: none; }
 
 /* ---------- setup ---------- */
 #s-setup { gap: 4px; }
-#s-setup h2 { font-size: 36px; margin: 14px 0 4px; }
+#s-setup h2 { font-size: 28px; margin: 14px 0 4px; }
 #s-setup .intro { font-size: 12.5px; line-height: 1.6; color: var(--muted); margin: 0 0 4px; }
 .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .dt-row { display: grid; grid-template-columns: 1.4fr 1fr; gap: 8px; margin-bottom: 8px; }
@@ -308,7 +344,7 @@ canvas#fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events
 <main class="card" id="card">
   <div class="ambient" id="ambient" aria-hidden="true"></div>
   <div class="topbar">
-    <button class="icon-btn" id="sound" type="button" aria-label="Ovozni yoqish" aria-pressed="false">
+    <button class="icon-btn" id="sound" type="button" aria-label="Musiqani yoqish" aria-pressed="false">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path id="snd-wave" d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14" opacity=".25"/></svg>
     </button>
   </div>
@@ -338,6 +374,21 @@ canvas#fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events
       </div>
       <p class="note">Sahifa claude.ai ichida ochilgan bo'lsa, yuqoridagi <b>Share → Copy link</b> tugmasidan foydalaning: havola ichida taklif allaqachon saqlangan.</p>
     </div>
+  </section>
+
+  <!-- 0b. ENVELOPE -->
+  <section class="screen" id="s-env" hidden aria-labelledby="env-h">
+    <span class="eyebrow pill">Yangi maktub</span>
+    <h2 class="display" id="env-h">Sizga maktub keldi</h2>
+    <p>Kimdir sizni juda kutyapti.</p>
+    <div class="env" id="env">
+      <div class="env-back"></div>
+      <div class="env-paper"><small>Maxsus taklif</small><b class="to">Shaxzoda</b></div>
+      <div class="env-front"></div>
+      <div class="env-flap"></div>
+      <button class="env-seal" id="seal" type="button" aria-label="Maktubni ochish"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.2C.8 8.2 3 4 7 4c2.2 0 3.7 1.2 5 3 1.3-1.8 2.8-3 5-3 4 0 6.2 4.2 4.6 7.8C19.5 16.4 12 21 12 21z"/></svg></button>
+    </div>
+    <span class="hint">Muhrni bosing</span>
   </section>
 
   <!-- 1. INTRO -->
@@ -388,6 +439,7 @@ canvas#fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events
 
   <!-- 3. YES -->
   <section class="screen" id="s-yes" hidden aria-labelledby="yes-h">
+    <div class="rise" id="rise" aria-hidden="true"></div>
     <div class="seal"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.2C.8 8.2 3 4 7 4c2.2 0 3.7 1.2 5 3 1.3-1.8 2.8-3 5-3 4 0 6.2 4.2 4.6 7.8C19.5 16.4 12 21 12 21z"/></svg></div>
     <span class="eyebrow">Rozilik qabul qilindi</span>
     <h2 class="display" id="yes-h">Ajoyib,<br>uchrashamiz!</h2>
@@ -521,11 +573,25 @@ canvas#fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events
     yes: () => tone([523, 659, 784, 1047, 1319], .9),
     pick: () => tone([740], .18, 'sine', .05)
   };
+  // gentle music-box loop while sound is on
+  const MELODY = [523, 659, 784, 988, 880, 784, 659, 784, 587, 698, 880, 1047, 988, 880, 784, 0, 523, 659, 784, 1047, 988, 784, 659, 587, 523, 659, 587, 494, 523, 0, 0, 0];
+  const BASS = [131, 131, 147, 147, 175, 175, 165, 131];
+  let mTimer = null, mStep = 0;
+  function musicStart() {
+    if (mTimer) return;
+    mTimer = setInterval(() => {
+      const n = MELODY[mStep % MELODY.length];
+      if (n) tone([n], 1.1, 'triangle', .028);
+      if (mStep % 4 === 0) tone([BASS[(mStep / 4) % BASS.length]], 1.6, 'sine', .03);
+      mStep++;
+    }, 330);
+  }
+  function musicStop() { clearInterval(mTimer); mTimer = null; }
   $('#sound').addEventListener('click', e => {
     soundOn = !soundOn; e.currentTarget.setAttribute('aria-pressed', soundOn);
-    e.currentTarget.setAttribute('aria-label', soundOn ? 'Ovozni o\'chirish' : 'Ovozni yoqish');
+    e.currentTarget.setAttribute('aria-label', soundOn ? 'Musiqani o\'chirish' : 'Musiqani yoqish');
     $('#snd-wave').setAttribute('opacity', soundOn ? '1' : '.25');
-    if (soundOn) sfx.pick();
+    soundOn ? (sfx.pick(), musicStart()) : musicStop();
   });
 
   /* ---------- toast ---------- */
@@ -543,6 +609,14 @@ canvas#fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events
     s.style.left = (Math.random() * 92 + 2) + '%'; s.style.top = (Math.random() * 92 + 2) + '%';
     s.style.fontSize = (8 + Math.random() * 10) + 'px'; s.style.animationDelay = (-Math.random() * 9) + 's';
     amb.appendChild(s);
+  }
+
+  const rise = $('#rise');
+  for (let i = 0; i < 18; i++) {
+    const s = document.createElement('span'); s.textContent = '♥';
+    s.style.left = (Math.random() * 100) + '%'; s.style.fontSize = (10 + Math.random() * 18) + 'px';
+    s.style.animationDuration = (6 + Math.random() * 6) + 's'; s.style.animationDelay = (-Math.random() * 10) + 's';
+    s.style.setProperty('--dx', ((Math.random() - .5) * 80) + 'px'); rise.appendChild(s);
   }
 
   /* ---------- confetti hearts ---------- */
@@ -580,7 +654,7 @@ canvas#fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events
     const s = $('#' + id); s.hidden = false; void s.offsetWidth; s.classList.add('enter');
     card.classList.toggle('is-wine', id === 's-yes');
     card.classList.toggle('is-cream', ['s-ask', 's-when', 's-what'].includes(id));
-    $('#maker').hidden = !(id === 's-intro' && !cfg.personal);
+    $('#maker').hidden = !(id === 's-env' && !cfg.personal);
     const f = s.querySelector('h1, h2'); if (f) { f.setAttribute('tabindex', '-1'); f.focus({ preventScroll: true }); }
   }
 
@@ -591,6 +665,16 @@ canvas#fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events
     $$('.from-n').forEach(e => e.textContent = cfg.f);
     document.title = `${cfg.t} uchun taklif`;
   }
+
+  /* ---------- 0b. envelope ---------- */
+  let envOpened = false;
+  $('#seal').addEventListener('click', () => {
+    if (envOpened) return; envOpened = true;
+    if (!soundOn) $('#sound').click(); // first tap is a user gesture: start the music
+    $('#env').classList.add('open'); sfx.merge();
+    const [x, y] = centerOf($('#env')); setTimeout(() => burst(x, y - 40, 50), 600);
+    setTimeout(() => go('s-intro'), 1900);
+  });
 
   /* ---------- 1. slider ---------- */
   const slider = $('#slider'), knob = $('#knob'), fill = $('#slider-fill'), stage = $('#heart-stage');
@@ -693,7 +777,7 @@ canvas#fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events
     });
     const or = document.createElement('div'); or.className = 'or'; or.textContent = 'YOKI'; box.appendChild(or);
     const c = document.createElement('button'); c.type = 'button'; c.className = 'opt'; c.setAttribute('role', 'radio'); c.setAttribute('aria-checked', 'false');
-    c.innerHTML = `<span class="cal-ic">${ICON.cal}</span><span class="t"><b style="font-size:16px">O'zimga qulay vaqtni tanlayman</b></span><span class="radio">${ICON.check}</span>`;
+    c.innerHTML = `<span class="cal-ic">${ICON.cal}</span><span class="t"><b>O'zimga qulay vaqtni tanlayman</b></span><span class="radio">${ICON.check}</span>`;
     const custom = document.createElement('div'); custom.className = 'custom'; custom.hidden = true;
     custom.innerHTML = `<input class="field" type="date" id="c-date" aria-label="Sana" min="${toISO(new Date())}"><input class="field" type="time" id="c-time" aria-label="Vaqt" value="19:00">`;
     const sync = () => { const ds = $('#c-date').value, ts = $('#c-time').value; pick = ds && ts ? { ds, ts, custom: true } : null; $('#to-what').disabled = !pick; };
@@ -741,7 +825,10 @@ canvas#fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events
       `<div>${ICON.spark}<span>${[...chosenPlans].join(' · ')}</span></div>` +
       (w ? `<div>${ICON.note}<span style="font-weight:500;font-style:italic"></span></div>` : '');
     if (w) $('#facts div:last-child span').textContent = `«${w}»`;
-    $('#letter-body').textContent = cfg.l || 'Bu oqshom biz uchun ajoyib xotiraga aylanishiga ishonaman.';
+    const body = $('#letter-body'), full = cfg.l || 'Bu oqshom biz uchun ajoyib xotiraga aylanishiga ishonaman.';
+    if (reduce) body.textContent = full;
+    else { body.textContent = ''; body.classList.add('caret'); let i = 0; clearInterval(window.__tw);
+      setTimeout(() => { window.__tw = setInterval(() => { body.textContent = full.slice(0, ++i); if (i >= full.length) { clearInterval(window.__tw); setTimeout(() => body.classList.remove('caret'), 1200); } }, 34); }, 900); }
 
     const start = parseDT(pick.ds, pick.ts), end = new Date(start.getTime() + 2 * 3600e3);
     const g = d => `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}T${pad(d.getHours())}${pad(d.getMinutes())}00`;
@@ -796,6 +883,7 @@ canvas#fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events
 
   /* ---------- boot ---------- */
   function resetFlow() {
+    envOpened = false; $('#env').classList.remove('open');
     done = false; stage.classList.remove('merged'); setProg(0);
     tries = 0; $('#counter').textContent = 'Rad etish: 0'; yes.style.setProperty('--s', 1); $('#tease').textContent = '';
     no.hidden = false; no.classList.remove('loose'); no.style.cssText = ''; bubble && bubble.remove();
@@ -804,7 +892,7 @@ canvas#fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events
   }
   function start() {
     applyNames(); renderDates(); resetFlow();
-    if (location.hash === '#yaratish') { renderSetup(); go('s-setup'); } else go('s-intro');
+    if (location.hash === '#yaratish') { renderSetup(); go('s-setup'); } else go('s-env');
   }
   addEventListener('hashchange', () => { if (/^#t-/.test(location.hash)) { cfg = readConfig(); start(); } else if (location.hash === '#yaratish') { renderSetup(); go('s-setup'); } });
   start();
