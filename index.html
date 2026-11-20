@@ -1,0 +1,819 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Uchrashuv Taklifi</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Siz uchun alohida taklif">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Manrope:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: one letterpress card centered on a blush ground; each step of the date replaces the card's content. Single deliberate look (no dark variant). */
+:root {
+  --ground: #EADFD6;
+  --paper: #F6EEE6;
+  --card: #FCF8F3;
+  --ink: #2B1A1F;
+  --muted: #7F6B6F;
+  --wine: #9B1C38;
+  --wine-deep: #74122A;
+  --blush: #EBD3D1;
+  --line: #E6D9D0;
+  --gold: #E9B872;
+  --f-display: "Cormorant Garamond", "Cormorant", Georgia, "Times New Roman", serif;
+  --f-ui: "Manrope", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --r-card: 28px;
+  --shadow: 0 30px 60px -30px rgba(116, 18, 42, .35), 0 2px 6px rgba(43, 26, 31, .06);
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { height: 100%; }
+body { min-height: 100%; }
+[tabindex="-1"]:focus { outline: none; }
+body {
+  background: radial-gradient(120% 80% at 50% 0%, #F3E7E1 0%, var(--ground) 60%);
+  color: var(--ink);
+  font-family: var(--f-ui);
+  -webkit-font-smoothing: antialiased;
+  display: grid;
+  place-items: center;
+  padding-block: 16px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  overflow-x: hidden;
+}
+button, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--wine); outline-offset: 3px; }
+
+.card {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  min-height: min(700px, calc(100dvh - 32px));
+  background: var(--paper);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  isolation: isolate;
+  transition: background .6s ease;
+}
+.card.is-wine { background: var(--wine); }
+.card.is-cream { background: var(--card); }
+
+/* floating hearts ambience */
+.ambient { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.ambient span {
+  position: absolute; color: var(--wine); opacity: .14; font-size: 12px;
+  animation: drift 9s ease-in-out infinite;
+}
+.card.is-wine .ambient span { color: #fff; opacity: .16; }
+@keyframes drift { 0%,100% { transform: translateY(0) rotate(-8deg); } 50% { transform: translateY(-14px) rotate(8deg); } }
+
+.topbar {
+  position: absolute; top: 16px; right: 16px; z-index: 5; display: flex; gap: 8px;
+}
+.icon-btn {
+  width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line);
+  background: rgba(255,255,255,.6); display: grid; place-items: center; color: var(--wine);
+  backdrop-filter: blur(6px);
+}
+.card.is-wine .icon-btn { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.25); color: #fff; }
+.icon-btn svg { width: 16px; height: 16px; }
+
+.screen {
+  position: relative; z-index: 1; min-height: inherit;
+  display: flex; flex-direction: column; padding: 36px 28px 28px;
+}
+.screen[hidden] { display: none !important; }
+.screen.enter { animation: enter .7s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes enter { from { opacity: 0; transform: translateY(16px) scale(.985); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
+
+.eyebrow {
+  font-size: 10px; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; color: var(--wine);
+}
+.pill {
+  align-self: center; display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 14px; border: 1px solid var(--blush); border-radius: 99px; background: rgba(255,255,255,.55);
+}
+.display { font-family: var(--f-display); font-weight: 600; line-height: 1.02; text-wrap: balance; }
+.muted { color: var(--muted); }
+.center { text-align: center; }
+.grow { flex: 1; }
+
+/* buttons */
+.btn {
+  border: 0; border-radius: 99px; padding: 15px 22px; font-size: 11px; font-weight: 800;
+  letter-spacing: .18em; text-transform: uppercase; display: inline-flex; align-items: center;
+  justify-content: center; gap: 10px; transition: transform .2s ease, box-shadow .2s ease, background .2s;
+}
+.btn svg { width: 15px; height: 15px; flex: none; }
+.btn-wine { background: var(--wine); color: #fff; box-shadow: 0 14px 26px -12px rgba(155,28,56,.7); }
+.btn-wine:hover { background: var(--wine-deep); transform: translateY(-1px); }
+.btn-wine:disabled { opacity: .45; cursor: not-allowed; transform: none; }
+.btn-ghost { background: var(--card); color: var(--ink); border: 1px solid var(--line); }
+.btn-ghost:hover { border-color: var(--blush); }
+.btn-cream { background: var(--card); color: var(--wine); box-shadow: 0 14px 30px -12px rgba(0,0,0,.4); }
+.btn-cream:hover { transform: translateY(-2px); }
+.btn-block { width: 100%; }
+.link-btn { background: none; border: 0; color: var(--muted); font-size: 12px; text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------- 1. intro ---------- */
+#s-intro { align-items: center; text-align: center; gap: 18px; justify-content: center; }
+#s-intro .lead { font-family: var(--f-display); font-style: italic; font-size: 19px; color: var(--muted); margin: 6px 0 -6px; }
+#s-intro h1 { font-family: var(--f-display); font-style: italic; font-weight: 600; color: var(--wine); font-size: clamp(52px, 15vw, 66px); margin: 0; line-height: 1; overflow-wrap: anywhere; }
+.heart-stage { position: relative; width: 170px; height: 160px; display: grid; place-items: center; margin: 4px 0; }
+.heart-stage::before {
+  content: ""; position: absolute; inset: 8px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(155,28,56,.12), transparent 70%);
+  transform: scale(var(--glow, .8)); transition: transform .3s;
+}
+.heart-svg { width: 130px; height: 130px; overflow: visible; }
+.half { transition: transform .08s linear; transform-box: view-box; transform-origin: 50% 90%; }
+.heart-stage.merged .heart-svg { animation: beat 1.1s ease-in-out infinite; }
+@keyframes beat { 0%,100% { transform: scale(1); } 15% { transform: scale(1.12); } 30% { transform: scale(.98); } 45% { transform: scale(1.08); } }
+.intro-text { font-size: 13px; line-height: 1.6; color: var(--muted); max-width: 30ch; margin: 0; }
+
+.slider {
+  position: relative; width: 100%; height: 58px; border-radius: 99px; background: var(--card);
+  border: 1px solid var(--line); box-shadow: inset 0 2px 6px rgba(43,26,31,.05); overflow: hidden; touch-action: none; user-select: none;
+}
+.slider-fill { position: absolute; inset: 0 auto 0 0; width: 0; background: linear-gradient(90deg, #C9506B, var(--wine)); border-radius: 99px; }
+.slider-label {
+  position: absolute; inset: 0; display: grid; place-items: center; font-size: 10px; font-weight: 800;
+  letter-spacing: .22em; text-transform: uppercase; color: var(--wine); padding-left: 40px; pointer-events: none;
+  background: linear-gradient(90deg, var(--wine) 0%, #E28A9D 50%, var(--wine) 100%); background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  animation: shimmer 2.6s linear infinite;
+}
+@keyframes shimmer { to { background-position: -200% 0; } }
+.slider-knob {
+  position: absolute; top: 5px; left: 5px; width: 48px; height: 48px; border-radius: 50%;
+  background: #fff; display: grid; place-items: center; color: var(--wine); cursor: grab;
+  box-shadow: 0 6px 14px -4px rgba(116,18,42,.45);
+}
+.slider-knob:active { cursor: grabbing; }
+.slider-knob svg { width: 20px; height: 20px; }
+.from { font-size: 10px; font-weight: 800; letter-spacing: .24em; text-transform: uppercase; color: var(--muted); opacity: .8; }
+
+/* ---------- 2. question ---------- */
+#s-ask { gap: 18px; }
+.ask-head { display: flex; justify-content: space-between; align-items: center; padding-right: 44px; }
+.counter { font-size: 10px; font-weight: 700; color: var(--muted); border: 1px solid var(--line); border-radius: 99px; padding: 4px 10px; font-variant-numeric: tabular-nums; transition: color .2s, border-color .2s; }
+.counter.bump { color: var(--wine); border-color: var(--wine); }
+.ask-box {
+  position: relative; flex: 1; background: var(--card); border-radius: 22px; border: 1px solid var(--line);
+  box-shadow: 0 20px 40px -28px rgba(43,26,31,.35); padding: 28px 22px; display: flex; flex-direction: column;
+}
+.ask-box p.sub { font-size: 12.5px; line-height: 1.6; margin: 0; text-align: center; color: var(--muted); }
+.ask-box h2 { font-size: clamp(34px, 9.5vw, 42px); text-align: center; margin: 22px 0 0; }
+.ask-zone { position: relative; flex: 1; min-height: 230px; }
+.ask-row { position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-50%); display: flex; justify-content: center; gap: 14px; }
+#btn-yes { min-width: 120px; transform: scale(var(--s, 1)); transition: transform .35s cubic-bezier(.3,1.6,.5,1), background .2s; position: relative; z-index: 2; }
+#btn-no { min-width: 110px; letter-spacing: .04em; text-transform: none; font-weight: 600; font-size: 13px; transition: left .35s cubic-bezier(.3,1.4,.5,1), top .35s cubic-bezier(.3,1.4,.5,1), transform .3s, opacity .3s; }
+#btn-no.loose { position: absolute; z-index: 3; }
+.bubble {
+  position: absolute; z-index: 4; background: #fff; border: 1px solid var(--line); color: var(--wine-deep);
+  font-size: 11px; font-weight: 700; line-height: 1.25; padding: 7px 12px; border-radius: 14px; max-width: 150px; text-align: center;
+  box-shadow: 0 8px 18px -10px rgba(43,26,31,.4); transform-origin: center; animation: pop .45s cubic-bezier(.3,1.6,.5,1) both;
+  pointer-events: none;
+}
+@keyframes pop { from { opacity: 0; transform: scale(.4) rotate(-10deg); } to { opacity: 1; transform: scale(1) rotate(var(--rot, -6deg)); } }
+.tease { text-align: center; font-size: 11.5px; color: var(--muted); min-height: 18px; margin: 0; }
+
+/* ---------- 3. yes ---------- */
+#s-yes { align-items: center; justify-content: center; text-align: center; color: #fff; gap: 14px; }
+.seal {
+  width: 104px; height: 104px; border-radius: 50%; background: var(--card); color: var(--wine);
+  display: grid; place-items: center; box-shadow: 0 0 0 14px rgba(255,255,255,.08), 0 0 0 30px rgba(255,255,255,.04);
+  animation: sealIn .9s cubic-bezier(.3,1.6,.5,1) both, beat 1.4s 1s ease-in-out infinite;
+}
+.seal svg { width: 44px; height: 44px; }
+@keyframes sealIn { from { transform: scale(0) rotate(-30deg); } to { transform: scale(1); } }
+#s-yes .eyebrow { color: rgba(255,255,255,.75); margin-top: 18px; }
+#s-yes h2 { font-style: italic; font-size: clamp(44px, 12vw, 52px); margin: 0; }
+#s-yes p { font-size: 13.5px; line-height: 1.6; opacity: .85; max-width: 30ch; margin: 0 0 12px; }
+
+/* ---------- 4/5. steps ---------- */
+.step-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-right: 44px; min-height: 34px; }
+.progress { display: flex; align-items: center; gap: 6px; font-size: 10px; color: var(--muted); font-weight: 700; font-variant-numeric: tabular-nums; }
+.progress i { display: block; width: 10px; height: 3px; border-radius: 3px; background: var(--blush); transition: width .3s, background .3s; }
+.progress i.on { width: 22px; background: var(--wine); }
+.back { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; border: 1px solid var(--line); background: var(--card); padding: 6px 12px; border-radius: 99px; }
+.back svg { width: 12px; height: 12px; }
+.step-title { font-size: clamp(34px, 9.5vw, 40px); margin: 18px 0 6px; }
+.label { font-size: 10px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin: 16px 0 10px; }
+.options { display: flex; flex-direction: column; gap: 10px; }
+.opt {
+  display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; background: var(--card);
+  border: 1px solid var(--line); border-radius: 16px; padding: 12px 16px; transition: background .25s, border-color .25s, transform .2s, color .25s;
+}
+.opt:hover { border-color: var(--blush); transform: translateY(-1px); }
+.opt .t { flex: 1; min-width: 0; }
+.opt b { display: block; font-family: var(--f-display); font-size: 18px; font-weight: 600; }
+.opt small { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); margin-top: 2px; font-variant-numeric: tabular-nums; }
+.opt small svg { width: 11px; height: 11px; }
+.radio { width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid var(--blush); flex: none; display: grid; place-items: center; transition: all .25s; }
+.radio svg { width: 12px; height: 12px; opacity: 0; }
+.opt[aria-checked="true"] { background: var(--wine); border-color: var(--wine); color: #fff; box-shadow: 0 14px 26px -16px rgba(155,28,56,.8); }
+.opt[aria-checked="true"] small { color: rgba(255,255,255,.8); }
+.opt[aria-checked="true"] .radio { border-color: #fff; background: rgba(255,255,255,.18); }
+.opt[aria-checked="true"] .radio svg { opacity: 1; }
+.or { display: flex; align-items: center; gap: 10px; font-size: 9px; letter-spacing: .25em; color: var(--muted); font-weight: 800; }
+.or::before, .or::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.cal-ic { width: 16px; height: 16px; color: var(--wine); flex: none; }
+.opt[aria-checked="true"] .cal-ic { color: #fff; }
+.custom { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 2px; }
+.custom[hidden] { display: none !important; }
+.field {
+  width: 100%; min-width: 0; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; font-size: 13px;
+}
+.field:focus { outline: none; border-color: var(--wine); box-shadow: 0 0 0 3px rgba(155,28,56,.12); }
+textarea.field { resize: none; min-height: 76px; line-height: 1.5; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  border: 1px solid var(--line); background: var(--card); border-radius: 99px; padding: 9px 14px; font-size: 12px; font-weight: 600;
+  display: inline-flex; align-items: center; gap: 7px; transition: all .2s;
+}
+.chip:hover { border-color: var(--blush); }
+.chip[aria-pressed="true"] { background: var(--wine); color: #fff; border-color: var(--wine); transform: scale(1.03); }
+.chosen {
+  display: flex; align-items: center; gap: 10px; background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 12px 16px;
+}
+.chosen b { font-family: var(--f-display); font-size: 17px; display: block; }
+.chosen small { font-size: 11px; color: var(--muted); }
+.count { text-align: right; font-size: 10px; color: var(--muted); margin-top: 4px; font-variant-numeric: tabular-nums; }
+.step-foot { margin-top: auto; padding-top: 18px; }
+
+/* ---------- 6. letter ---------- */
+#s-letter { gap: 16px; }
+#s-letter h2 { font-style: italic; color: var(--wine); font-size: clamp(34px, 9.5vw, 40px); text-align: center; margin: 4px 0 0; }
+.letter {
+  position: relative; background: var(--card); border-radius: 22px; border: 1px solid var(--line); padding: 24px 22px 22px;
+  box-shadow: 0 24px 40px -28px rgba(43,26,31,.4);
+  animation: unfold .9s cubic-bezier(.2,.8,.2,1) both .15s;
+  transform-origin: top center;
+}
+@keyframes unfold { from { opacity: 0; transform: perspective(800px) rotateX(-35deg) translateY(-10px); } to { opacity: 1; transform: none; } }
+.letter .stamp {
+  position: absolute; top: -1px; right: -1px; width: 58px; height: 58px; border-radius: 0 22px 0 30px; background: var(--blush);
+  display: grid; place-items: center; color: var(--wine);
+}
+.letter .stamp svg { width: 20px; height: 20px; }
+.letter h3 { font-family: var(--f-display); font-size: 22px; margin: 0 0 10px; }
+.letter p { font-size: 12.5px; line-height: 1.65; color: var(--muted); margin: 0; }
+.facts { background: var(--paper); border-radius: 14px; padding: 12px 14px; margin: 14px 0; display: grid; gap: 8px; }
+.facts div { display: flex; align-items: flex-start; gap: 10px; font-size: 12.5px; font-weight: 600; }
+.facts svg { width: 14px; height: 14px; color: var(--wine); flex: none; margin-top: 1px; }
+.sign { font-family: var(--f-display); font-style: italic; font-size: 20px; color: var(--wine); margin-top: 14px; }
+.countdown { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; text-align: center; }
+.countdown div { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 8px 4px; }
+.countdown b { display: block; font-family: var(--f-display); font-size: 26px; color: var(--wine); font-variant-numeric: tabular-nums; line-height: 1.1; }
+.countdown span { font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+.actions { display: grid; gap: 10px; }
+.actions-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.actions-2 .btn { padding: 13px 8px; font-size: 10px; letter-spacing: .08em; }
+a.btn { text-decoration: none; }
+.made { text-align: center; font-size: 9px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); font-weight: 700; opacity: .7; }
+
+.toast {
+  position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 20px);
+  background: var(--ink); color: #fff; font-size: 12px; font-weight: 600; padding: 10px 16px; border-radius: 99px; opacity: 0;
+  transition: all .3s; pointer-events: none; z-index: 50;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* ---------- setup ---------- */
+#s-setup { gap: 4px; }
+#s-setup h2 { font-size: 36px; margin: 14px 0 4px; }
+#s-setup .intro { font-size: 12.5px; line-height: 1.6; color: var(--muted); margin: 0 0 4px; }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.dt-row { display: grid; grid-template-columns: 1.4fr 1fr; gap: 8px; margin-bottom: 8px; }
+.result { display: grid; gap: 10px; margin-top: 14px; }
+.result[hidden] { display: none !important; }
+.linkbox { font-size: 11px; word-break: break-all; background: var(--card); border: 1px dashed var(--blush); border-radius: 14px; padding: 12px; color: var(--muted); max-height: 92px; overflow: auto; }
+.note { font-size: 11px; line-height: 1.55; color: var(--muted); margin: 0; }
+.maker-link { position: absolute; bottom: 10px; left: 0; right: 0; text-align: center; z-index: 2; }
+
+canvas#fx { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 40; }
+
+@media (max-width: 380px) {
+  .screen { padding: 30px 20px 22px; }
+  .actions-2 { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001s !important; animation-iteration-count: 1 !important; transition-duration: .001s !important; }
+}
+</style>
+
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<main class="card" id="card">
+  <div class="ambient" id="ambient" aria-hidden="true"></div>
+  <div class="topbar">
+    <button class="icon-btn" id="sound" type="button" aria-label="Ovozni yoqish" aria-pressed="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path id="snd-wave" d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14" opacity=".25"/></svg>
+    </button>
+  </div>
+
+  <!-- 0. SETUP -->
+  <section class="screen" id="s-setup" hidden aria-labelledby="setup-h">
+    <span class="eyebrow">Taklifnoma yaratish</span>
+    <h2 class="display" id="setup-h">O'z taklifingizni tayyorlang</h2>
+    <p class="intro">Ismlar va sanalarni yozing. Tayyor havolani unga yuboring: u ochganda hammasi aynan uning ismi bilan chiqadi.</p>
+    <form id="setup-form" novalidate>
+      <div class="row2">
+        <div><div class="label">Uning ismi</div><input class="field" id="f-to" maxlength="24" placeholder="Shaxzoda" required></div>
+        <div><div class="label">Sizning ismingiz</div><input class="field" id="f-from" maxlength="24" placeholder="Javohir" required></div>
+      </div>
+      <div class="label">Taklif qilinadigan vaqtlar</div>
+      <div id="f-dates"></div>
+      <div class="label">Xat matni · ixtiyoriy</div>
+      <textarea class="field" id="f-letter" maxlength="240" placeholder="Bu oqshom biz uchun ajoyib xotiraga aylanishiga ishonaman."></textarea>
+      <div class="step-foot"><button class="btn btn-wine btn-block" type="submit">Havolani yaratish
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg></button></div>
+    </form>
+    <div class="result" id="setup-result" hidden>
+      <div class="linkbox" id="link-out"></div>
+      <div class="actions-2">
+        <button class="btn btn-ghost" type="button" id="copy-link">Nusxalash</button>
+        <button class="btn btn-wine" type="button" id="preview-link">Ko'rib chiqish</button>
+      </div>
+      <p class="note">Sahifa claude.ai ichida ochilgan bo'lsa, yuqoridagi <b>Share → Copy link</b> tugmasidan foydalaning: havola ichida taklif allaqachon saqlangan.</p>
+    </div>
+  </section>
+
+  <!-- 1. INTRO -->
+  <section class="screen" id="s-intro" hidden aria-labelledby="to-name">
+    <span class="eyebrow pill"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.2C.8 8.2 3 4 7 4c2.2 0 3.7 1.2 5 3 1.3-1.8 2.8-3 5-3 4 0 6.2 4.2 4.6 7.8C19.5 16.4 12 21 12 21z"/></svg>Faqat siz uchun</span>
+    <p class="lead">Bu alohida taklif</p>
+    <h1 id="to-name">Shaxzoda</h1>
+    <div class="heart-stage" id="heart-stage">
+      <svg class="heart-svg" viewBox="0 0 100 100" aria-hidden="true">
+        <defs>
+          <linearGradient id="hg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B52446"/><stop offset="1" stop-color="#8C1631"/></linearGradient>
+          <clipPath id="cl"><polygon points="-10,-10 50,-10 50,22 43,36 54,48 44,62 52,75 50,100 -10,110"/></clipPath>
+          <clipPath id="cr"><polygon points="110,-10 50,-10 50,22 43,36 54,48 44,62 52,75 50,100 110,110"/></clipPath>
+        </defs>
+        <g class="half" id="half-l"><path clip-path="url(#cl)" fill="url(#hg)" d="M50 90C20 68 5 52 5 33 5 18 16 8 29.5 8 38.5 8 45.5 13 50 21 54.5 13 61.5 8 70.5 8 84 8 95 18 95 33 95 52 80 68 50 90Z"/></g>
+        <g class="half" id="half-r"><path clip-path="url(#cr)" fill="url(#hg)" d="M50 90C20 68 5 52 5 33 5 18 16 8 29.5 8 38.5 8 45.5 13 50 21 54.5 13 61.5 8 70.5 8 84 8 95 18 95 33 95 52 80 68 50 90Z"/></g>
+      </svg>
+    </div>
+    <p class="intro-text">Yurakning ikki bo'lagini birlashtiring: kichkina savolim sizni kutyapti.</p>
+    <div class="slider" id="slider">
+      <div class="slider-fill" id="slider-fill"></div>
+      <div class="slider-label">Ochish uchun suring</div>
+      <div class="slider-knob" id="knob" role="slider" tabindex="0" aria-label="Taklifni ochish uchun suring" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.2C.8 8.2 3 4 7 4c2.2 0 3.7 1.2 5 3 1.3-1.8 2.8-3 5-3 4 0 6.2 4.2 4.6 7.8C19.5 16.4 12 21 12 21z"/></svg>
+      </div>
+    </div>
+    <span class="from">Kimdan: <span id="from-name">Javohir</span></span>
+  </section>
+
+  <!-- 2. QUESTION -->
+  <section class="screen" id="s-ask" hidden aria-labelledby="ask-h">
+    <div class="ask-head">
+      <span class="eyebrow">Bitta kichkina savol</span>
+      <span class="counter" id="counter" aria-live="polite">Rad etish: 0</span>
+    </div>
+    <div class="ask-box">
+      <p class="sub">Sizga kichkina taklifim bor: balki u bizning eng yoqimli xotiralarimizdan biriga aylanar.</p>
+      <h2 class="display" id="ask-h"><span class="to">Shaxzoda</span>,<br>uchrashamizmi?</h2>
+      <div class="ask-zone" id="zone">
+        <div class="ask-row" id="ask-row">
+          <button class="btn btn-wine" type="button" id="btn-yes"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.2C.8 8.2 3 4 7 4c2.2 0 3.7 1.2 5 3 1.3-1.8 2.8-3 5-3 4 0 6.2 4.2 4.6 7.8C19.5 16.4 12 21 12 21z"/></svg>Ha</button>
+          <button class="btn btn-ghost" type="button" id="btn-no">Yo'q</button>
+        </div>
+      </div>
+      <p class="tease" id="tease" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <!-- 3. YES -->
+  <section class="screen" id="s-yes" hidden aria-labelledby="yes-h">
+    <div class="seal"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.2C.8 8.2 3 4 7 4c2.2 0 3.7 1.2 5 3 1.3-1.8 2.8-3 5-3 4 0 6.2 4.2 4.6 7.8C19.5 16.4 12 21 12 21z"/></svg></div>
+    <span class="eyebrow">Rozilik qabul qilindi</span>
+    <h2 class="display" id="yes-h">Ajoyib,<br>uchrashamiz!</h2>
+    <p>Endi kunni tanlab, bizning yoqimli oqshomimizni birga rejalashtiramiz.</p>
+    <button class="btn btn-cream" type="button" id="to-when">Rejani tanlaymiz
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></button>
+  </section>
+
+  <!-- 4. WHEN -->
+  <section class="screen" id="s-when" hidden aria-labelledby="when-h">
+    <div class="step-head">
+      <span class="eyebrow">Kelishuvni chiroyli qilamiz</span>
+      <span class="progress"><i class="on"></i><i></i>1/2</span>
+    </div>
+    <h2 class="display step-title" id="when-h">Kun va vaqtni tanlang</h2>
+    <div class="label">Qachon uchrashamiz?</div>
+    <div class="options" id="date-opts" role="radiogroup" aria-labelledby="when-h"></div>
+    <div class="step-foot"><button class="btn btn-wine btn-block" type="button" id="to-what" disabled>Keyingi: rejani tanlash
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+  </section>
+
+  <!-- 5. WHAT -->
+  <section class="screen" id="s-what" hidden aria-labelledby="what-h">
+    <div class="step-head">
+      <button class="back" type="button" id="back-when"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>Vaqtga qaytish</button>
+      <span class="progress"><i></i><i class="on"></i>2/2</span>
+    </div>
+    <h2 class="display step-title" id="what-h">Reja va tilakni tanlang</h2>
+    <div class="chosen" id="chosen"></div>
+    <div class="label">Nima qilamiz? · bir nechtasini tanlash mumkin</div>
+    <div class="chips" id="chips"></div>
+    <div class="label">Sizdan bir-ikki og'iz · ixtiyoriy</div>
+    <textarea class="field" id="wish" maxlength="300" placeholder="Qisqa javob yozishingiz mumkin..."></textarea>
+    <div class="count"><span id="wish-n">0</span>/300</div>
+    <div class="step-foot"><button class="btn btn-wine btn-block" type="button" id="confirm" disabled>Uchrashuvni tasdiqlash
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4 20-7z"/><path d="M22 2 11 13"/></svg></button></div>
+  </section>
+
+  <!-- 6. LETTER -->
+  <section class="screen" id="s-letter" hidden aria-labelledby="letter-h">
+    <span class="eyebrow pill">Rejamiz tayyor</span>
+    <h2 class="display" id="letter-h">Biz uchun kichkina xat</h2>
+    <article class="letter">
+      <div class="stamp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.2C.8 8.2 3 4 7 4c2.2 0 3.7 1.2 5 3 1.3-1.8 2.8-3 5-3 4 0 6.2 4.2 4.6 7.8C19.5 16.4 12 21 12 21z"/></svg></div>
+      <h3>Aziz <span class="to">Shaxzoda</span>,</h3>
+      <p>Endi hammasi aniq: uchrashuvimiz belgilandi. Bu rejani asrab qo'yaman. O'sha kunni intiqlik bilan kutaman.</p>
+      <div class="facts" id="facts"></div>
+      <p id="letter-body"></p>
+      <div class="sign">— <span class="from-n">Javohir</span> ♡</div>
+    </article>
+    <div>
+      <div class="label center" style="margin-top:0">Uchrashuvgacha</div>
+      <div class="countdown" id="countdown" aria-live="off">
+        <div><b id="cd-d">0</b><span>kun</span></div>
+        <div><b id="cd-h">0</b><span>soat</span></div>
+        <div><b id="cd-m">0</b><span>daqiqa</span></div>
+        <div><b id="cd-s">0</b><span>soniya</span></div>
+      </div>
+    </div>
+    <div class="actions">
+      <a class="btn btn-wine btn-block" id="tg-share" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg>
+        Yaxshi xabarni ulashish</a>
+      <div class="actions-2">
+        <a class="btn btn-ghost" id="gcal" href="#" target="_blank" rel="noopener">Taqvimga qo'shish</a>
+        <button class="btn btn-ghost" type="button" id="copy-answer">Matnni nusxalash</button>
+      </div>
+    </div>
+    <div class="made">Iliqlik bilan yaratildi</div>
+  </section>
+
+  <div class="maker-link" id="maker" hidden><button class="link-btn" type="button" id="open-setup">O'z taklifingizni yarating</button></div>
+</main>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const HEART = '<svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12"><path d="M12 21s-7.5-4.6-9.6-9.2C.8 8.2 3 4 7 4c2.2 0 3.7 1.2 5 3 1.3-1.8 2.8-3 5-3 4 0 6.2 4.2 4.6 7.8C19.5 16.4 12 21 12 21z"/></svg>';
+  const ICON = {
+    cal: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',
+    clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+    spark: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/></svg>',
+    note: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+    check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5L20 7"/></svg>'
+  };
+
+  /* ---------- Uzbek dates ---------- */
+  const MONTHS = ['Yanvar','Fevral','Mart','Aprel','May','Iyun','Iyul','Avgust','Sentabr','Oktabr','Noyabr','Dekabr'];
+  const DAYS = ['Yakshanba','Dushanba','Seshanba','Chorshanba','Payshanba','Juma','Shanba'];
+  const pad = n => String(n).padStart(2, '0');
+  const toISO = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  const parseDT = (ds, ts) => { const [y, m, d] = ds.split('-').map(Number); const [h, mi] = (ts || '19:00').split(':').map(Number); return new Date(y, m - 1, d, h, mi); };
+  const fmtDay = ds => { const d = parseDT(ds, '12:00'); return `${d.getDate()}-${MONTHS[d.getMonth()]}, ${DAYS[d.getDay()]}`; };
+
+  /* ---------- config in the link (base32 so only letters/digits are used) ---------- */
+  const A = 'abcdefghijklmnopqrstuvwxyz234567';
+  const b32enc = str => { let bits = 0, val = 0, out = ''; for (const b of new TextEncoder().encode(str)) { val = (val << 8) | b; bits += 8; while (bits >= 5) { out += A[(val >>> (bits - 5)) & 31]; bits -= 5; } val &= (1 << bits) - 1; } if (bits) out += A[(val << (5 - bits)) & 31]; return out; };
+  const b32dec = s => { let bits = 0, val = 0; const bytes = []; for (const c of s) { const i = A.indexOf(c); if (i < 0) throw 0; val = (val << 5) | i; bits += 5; if (bits >= 8) { bytes.push((val >>> (bits - 8)) & 255); bits -= 8; val &= (1 << bits) - 1; } } return new TextDecoder().decode(new Uint8Array(bytes)); };
+
+  const plusDays = n => { const d = new Date(); d.setDate(d.getDate() + n); return toISO(d); };
+  const DEFAULT = { t: 'Shaxzoda', f: 'Javohir', d: [[plusDays(2), '18:30'], [plusDays(4), '17:00'], [plusDays(6), '19:00']], l: '' };
+
+  function readConfig() {
+    const params = new URLSearchParams(location.search);
+    let raw = (location.hash.match(/^#t-([a-z2-7]+)$/) || [])[1] || params.get('t') || '';
+    if (raw) { try { const c = JSON.parse(b32dec(raw)); if (c && c.t) return { ...DEFAULT, ...c, personal: true }; } catch (e) {} }
+    return { ...DEFAULT, personal: false };
+  }
+  let cfg = readConfig();
+
+  /* ---------- sound (soft synthesized chimes) ---------- */
+  let soundOn = false, ac = null;
+  function tone(freqs, dur = .35, type = 'sine', gain = .07) {
+    if (!soundOn) return;
+    try {
+      ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+      freqs.forEach((f, i) => {
+        const o = ac.createOscillator(), g = ac.createGain(), t = ac.currentTime + i * .09;
+        o.type = type; o.frequency.value = f; g.gain.setValueAtTime(0, t);
+        g.gain.linearRampToValueAtTime(gain, t + .02); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+        o.connect(g).connect(ac.destination); o.start(t); o.stop(t + dur + .05);
+      });
+    } catch (e) {}
+  }
+  const sfx = {
+    tick: () => tone([880], .12, 'triangle', .04),
+    boing: () => tone([330, 247], .25, 'triangle', .05),
+    merge: () => tone([523, 659, 784, 1047], .6),
+    yes: () => tone([523, 659, 784, 1047, 1319], .9),
+    pick: () => tone([740], .18, 'sine', .05)
+  };
+  $('#sound').addEventListener('click', e => {
+    soundOn = !soundOn; e.currentTarget.setAttribute('aria-pressed', soundOn);
+    e.currentTarget.setAttribute('aria-label', soundOn ? 'Ovozni o\'chirish' : 'Ovozni yoqish');
+    $('#snd-wave').setAttribute('opacity', soundOn ? '1' : '.25');
+    if (soundOn) sfx.pick();
+  });
+
+  /* ---------- toast ---------- */
+  let tt;
+  const toast = msg => { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 2200); };
+  async function copy(text, okMsg) {
+    try { await navigator.clipboard.writeText(text); toast(okMsg); }
+    catch (e) { const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); toast(okMsg); } catch (_) { toast('Matnni belgilab, qo\'lda nusxalang'); } ta.remove(); }
+  }
+
+  /* ---------- ambient hearts ---------- */
+  const amb = $('#ambient');
+  for (let i = 0; i < 14; i++) {
+    const s = document.createElement('span'); s.textContent = i % 3 ? '♥' : '✦';
+    s.style.left = (Math.random() * 92 + 2) + '%'; s.style.top = (Math.random() * 92 + 2) + '%';
+    s.style.fontSize = (8 + Math.random() * 10) + 'px'; s.style.animationDelay = (-Math.random() * 9) + 's';
+    amb.appendChild(s);
+  }
+
+  /* ---------- confetti hearts ---------- */
+  const cv = $('#fx'), cx = cv.getContext('2d'); let parts = [], raf = 0;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function resize() { cv.width = innerWidth * devicePixelRatio; cv.height = innerHeight * devicePixelRatio; }
+  addEventListener('resize', resize); resize();
+  function heartPath(c, x, y, s) { c.beginPath(); c.moveTo(x, y + s * .3); c.bezierCurveTo(x, y, x - s * .5, y, x - s * .5, y + s * .3); c.bezierCurveTo(x - s * .5, y + s * .6, x, y + s * .8, x, y + s); c.bezierCurveTo(x, y + s * .8, x + s * .5, y + s * .6, x + s * .5, y + s * .3); c.bezierCurveTo(x + s * .5, y, x, y, x, y + s * .3); c.fill(); }
+  function burst(x, y, n = 90, colors = ['#9B1C38', '#C9506B', '#E9B872', '#F3C6CF', '#ffffff']) {
+    if (reduce) return;
+    const d = devicePixelRatio;
+    for (let i = 0; i < n; i++) {
+      const a = Math.random() * Math.PI * 2, v = 4 + Math.random() * 9;
+      parts.push({ x: x * d, y: y * d, vx: Math.cos(a) * v * d, vy: (Math.sin(a) * v - 6) * d, s: (6 + Math.random() * 10) * d, r: Math.random() * 6, vr: (Math.random() - .5) * .3, c: colors[i % colors.length], life: 1, heart: Math.random() > .35 });
+    }
+    if (!raf) loop();
+  }
+  function loop() {
+    cx.clearRect(0, 0, cv.width, cv.height);
+    parts = parts.filter(p => p.life > 0);
+    for (const p of parts) {
+      p.vy += .28 * devicePixelRatio; p.vx *= .985; p.x += p.vx; p.y += p.vy; p.r += p.vr; p.life -= .008;
+      cx.save(); cx.globalAlpha = Math.min(1, p.life * 2); cx.fillStyle = p.c; cx.translate(p.x, p.y); cx.rotate(p.r);
+      if (p.heart) heartPath(cx, 0, -p.s / 2, p.s); else cx.fillRect(-p.s / 3, -p.s / 6, p.s / 1.5, p.s / 3);
+      cx.restore();
+    }
+    raf = parts.length ? requestAnimationFrame(loop) : (cx.clearRect(0, 0, cv.width, cv.height), 0);
+  }
+  const centerOf = el => { const r = el.getBoundingClientRect(); return [r.left + r.width / 2, r.top + r.height / 2]; };
+
+  /* ---------- navigation ---------- */
+  const card = $('#card');
+  function go(id) {
+    $$('.screen').forEach(s => { s.hidden = true; s.classList.remove('enter'); });
+    const s = $('#' + id); s.hidden = false; void s.offsetWidth; s.classList.add('enter');
+    card.classList.toggle('is-wine', id === 's-yes');
+    card.classList.toggle('is-cream', ['s-ask', 's-when', 's-what'].includes(id));
+    $('#maker').hidden = !(id === 's-intro' && !cfg.personal);
+    const f = s.querySelector('h1, h2'); if (f) { f.setAttribute('tabindex', '-1'); f.focus({ preventScroll: true }); }
+  }
+
+  function applyNames() {
+    $('#to-name').textContent = cfg.t;
+    $('#from-name').textContent = cfg.f;
+    $$('.to').forEach(e => e.textContent = cfg.t);
+    $$('.from-n').forEach(e => e.textContent = cfg.f);
+    document.title = `${cfg.t} uchun taklif`;
+  }
+
+  /* ---------- 1. slider ---------- */
+  const slider = $('#slider'), knob = $('#knob'), fill = $('#slider-fill'), stage = $('#heart-stage');
+  let dragging = false, startX = 0, prog = 0, done = false;
+  function setProg(p) {
+    prog = Math.max(0, Math.min(1, p));
+    const max = slider.clientWidth - knob.offsetWidth - 10;
+    knob.style.transform = `translateX(${prog * max}px)`;
+    fill.style.width = `${prog * max + knob.offsetWidth + 10}px`;
+    fill.style.opacity = prog ? 1 : 0;
+    const gap = (1 - prog) * 14;
+    $('#half-l').style.transform = `translateX(${-gap}px) rotate(${-(1 - prog) * 14}deg)`;
+    $('#half-r').style.transform = `translateX(${gap}px) rotate(${(1 - prog) * 14}deg)`;
+    stage.style.setProperty('--glow', .8 + prog * .5);
+    knob.setAttribute('aria-valuenow', Math.round(prog * 100));
+    if (prog >= .97 && !done) complete();
+  }
+  function complete() {
+    done = true; dragging = false; setProg(1); stage.classList.add('merged'); sfx.merge();
+    const [x, y] = centerOf(stage); burst(x, y, 70);
+    if (navigator.vibrate) try { navigator.vibrate([20, 40, 20]); } catch (e) {}
+    setTimeout(() => go('s-ask'), 1300);
+  }
+  knob.addEventListener('pointerdown', e => { if (done) return; dragging = true; startX = e.clientX - prog * (slider.clientWidth - knob.offsetWidth - 10); knob.setPointerCapture(e.pointerId); });
+  knob.addEventListener('pointermove', e => { if (!dragging) return; setProg((e.clientX - startX) / (slider.clientWidth - knob.offsetWidth - 10)); });
+  const release = () => { if (!dragging) return; dragging = false; if (!done) { knob.style.transition = fill.style.transition = 'transform .4s, width .4s'; $$('.half').forEach(h => h.style.transition = 'transform .4s'); setProg(0); setTimeout(() => { knob.style.transition = fill.style.transition = ''; $$('.half').forEach(h => h.style.transition = ''); }, 420); } };
+  knob.addEventListener('pointerup', release); knob.addEventListener('pointercancel', release);
+  knob.addEventListener('keydown', e => {
+    if (done) return;
+    if (['ArrowRight', 'ArrowUp'].includes(e.key)) { e.preventDefault(); setProg(prog + .1); sfx.tick(); }
+    if (['ArrowLeft', 'ArrowDown'].includes(e.key)) { e.preventDefault(); setProg(prog - .1); }
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); complete(); }
+  });
+
+  /* ---------- 2. the question ---------- */
+  const MSGS = ['Aniqmi?', 'Juda iltimos qilsam-chi?', 'Yana bir bor o\'ylab ko\'rasizmi?', 'Yuragim yorilib ketadi...', 'Men qahvani ham olib beraman', 'Bu tugma bugun ishlamayapti', 'Javob faqat bitta qoldi'];
+  const TEASE = ['', '«Yo\'q» tugmasi biroz uyatchan.', 'U sizdan qochyapti, sezdingizmi?', '«Ha» tugmasi esa kattalashib boryapti...', 'Taqdir ham «Ha» deyapti.', 'Oxirgi imkoniyat... «Ha»ga.', 'Endi tanlov oson.'];
+  const zone = $('#zone'), yes = $('#btn-yes'), no = $('#btn-no');
+  let tries = 0, bubble;
+  function showBubble(text) {
+    bubble && bubble.remove();
+    bubble = document.createElement('div'); bubble.className = 'bubble'; bubble.textContent = text;
+    const zr = zone.getBoundingClientRect(), yr = yes.getBoundingClientRect();
+    const left = tries % 2 ? yr.right - zr.left - 30 : yr.left - zr.left - 70;
+    bubble.style.left = Math.max(0, Math.min(zr.width - 150, left)) + 'px';
+    bubble.style.top = Math.max(0, yr.top - zr.top - 44) + 'px';
+    bubble.style.setProperty('--rot', (tries % 2 ? 6 : -6) + 'deg');
+    zone.appendChild(bubble);
+  }
+  let lastDodge = 0;
+  function dodge(e) {
+    if (e) e.preventDefault();
+    const now = Date.now(); if (now - lastDodge < 350) return; lastDodge = now;
+    tries++;
+    sfx.boing();
+    const c = $('#counter'); c.textContent = `Rad etish: ${tries}`; c.classList.add('bump'); setTimeout(() => c.classList.remove('bump'), 300);
+    yes.style.setProperty('--s', Math.min(1 + tries * .14, 1.85).toFixed(2));
+    $('#tease').textContent = TEASE[Math.min(tries, TEASE.length - 1)];
+    if (tries >= 7) {
+      no.style.opacity = 0; no.style.transform = 'scale(0)'; setTimeout(() => no.hidden = true, 300);
+      showBubble(MSGS[MSGS.length - 1]); return;
+    }
+    showBubble(MSGS[(tries - 1) % (MSGS.length - 1)]);
+    // run away inside the zone, never onto the yes button
+    if (!no.classList.contains('loose')) {
+      const zr = zone.getBoundingClientRect(), nr = no.getBoundingClientRect();
+      no.style.left = (nr.left - zr.left) + 'px'; no.style.top = (nr.top - zr.top) + 'px';
+      no.classList.add('loose'); void no.offsetWidth;
+    }
+    const zr = zone.getBoundingClientRect(), yr = yes.getBoundingClientRect();
+    const w = no.offsetWidth, h = no.offsetHeight; let x, y, guard = 0;
+    do {
+      x = Math.random() * (zr.width - w); y = Math.random() * (zr.height - h); guard++;
+    } while (guard < 40 && x + w > yr.left - zr.left - 12 && x < yr.right - zr.left + 12 && y + h > yr.top - zr.top - 12 && y < yr.bottom - zr.top + 12);
+    no.style.left = x + 'px'; no.style.top = y + 'px';
+    no.style.transform = `scale(${Math.max(.55, 1 - tries * .07)}) rotate(${(Math.random() - .5) * 16}deg)`;
+  }
+  no.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') dodge(); });
+  no.addEventListener('pointerdown', dodge);
+  no.addEventListener('click', dodge);
+  yes.addEventListener('click', () => {
+    sfx.yes(); const [x, y] = centerOf(yes); burst(x, y, 160);
+    if (navigator.vibrate) try { navigator.vibrate(60); } catch (e) {}
+    setTimeout(() => { go('s-yes'); burst(innerWidth / 2, innerHeight * .35, 120); }, 450);
+  });
+
+  /* ---------- 3 → 4 ---------- */
+  $('#to-when').addEventListener('click', () => go('s-when'));
+
+  /* ---------- 4. date ---------- */
+  let pick = null; // {ds, ts, custom}
+  function renderDates() {
+    const box = $('#date-opts'); box.innerHTML = '';
+    const opts = cfg.d.filter(x => x && x[0]);
+    opts.forEach(([ds, ts], i) => {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'opt'; b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', 'false');
+      b.innerHTML = `<span class="t"><b>${fmtDay(ds)}</b><small>${ICON.clock}${ts}</small></span><span class="radio">${ICON.check}</span>`;
+      b.addEventListener('click', () => select(b, { ds, ts }));
+      box.appendChild(b);
+    });
+    const or = document.createElement('div'); or.className = 'or'; or.textContent = 'YOKI'; box.appendChild(or);
+    const c = document.createElement('button'); c.type = 'button'; c.className = 'opt'; c.setAttribute('role', 'radio'); c.setAttribute('aria-checked', 'false');
+    c.innerHTML = `<span class="cal-ic">${ICON.cal}</span><span class="t"><b style="font-size:16px">O'zimga qulay vaqtni tanlayman</b></span><span class="radio">${ICON.check}</span>`;
+    const custom = document.createElement('div'); custom.className = 'custom'; custom.hidden = true;
+    custom.innerHTML = `<input class="field" type="date" id="c-date" aria-label="Sana" min="${toISO(new Date())}"><input class="field" type="time" id="c-time" aria-label="Vaqt" value="19:00">`;
+    const sync = () => { const ds = $('#c-date').value, ts = $('#c-time').value; pick = ds && ts ? { ds, ts, custom: true } : null; $('#to-what').disabled = !pick; };
+    c.addEventListener('click', () => { select(c, null); custom.hidden = false; sync(); $('#c-date').focus(); });
+    custom.addEventListener('input', sync);
+    box.append(c, custom);
+  }
+  function select(btn, val) {
+    $$('#date-opts .opt').forEach(o => o.setAttribute('aria-checked', String(o === btn)));
+    const cu = $('#date-opts .custom'); if (val) cu.hidden = true;
+    pick = val; $('#to-what').disabled = !pick; sfx.pick();
+  }
+  $('#to-what').addEventListener('click', () => {
+    if (!pick) return;
+    $('#chosen').innerHTML = `<span class="cal-ic">${ICON.cal}</span><span><b>${fmtDay(pick.ds)}</b><small>${pick.ts}</small></span>`;
+    go('s-what');
+  });
+  $('#back-when').addEventListener('click', () => go('s-when'));
+
+  /* ---------- 5. plan ---------- */
+  const PLANS = [['☕', 'Qahva va uzoq suhbat'], ['🎬', 'Kino va sayr'], ['🕯️', 'Ikki kishilik kechki ovqat'], ['🌙', 'Tungi shahar sayri'], ['🎳', 'Bouling yoki o\'yinlar'], ['🎁', 'Mendan syurpriz']];
+  const chosenPlans = new Set();
+  PLANS.forEach(([e, t]) => {
+    const c = document.createElement('button'); c.type = 'button'; c.className = 'chip'; c.setAttribute('aria-pressed', 'false');
+    c.innerHTML = `<span aria-hidden="true">${e}</span>${t}`;
+    c.addEventListener('click', () => {
+      const on = !chosenPlans.has(t); on ? chosenPlans.add(t) : chosenPlans.delete(t);
+      c.setAttribute('aria-pressed', String(on)); $('#confirm').disabled = !chosenPlans.size; sfx.pick();
+    });
+    $('#chips').appendChild(c);
+  });
+  $('#wish').addEventListener('input', e => $('#wish-n').textContent = e.target.value.length);
+
+  /* ---------- 6. letter ---------- */
+  let cdTimer;
+  function answerText() {
+    const w = $('#wish').value.trim();
+    return `${cfg.f}, men roziman! ❤\n📅 ${fmtDay(pick.ds)}\n🕖 ${pick.ts}\n✨ ${[...chosenPlans].join(', ')}` + (w ? `\n💌 ${w}` : '') + `\n— ${cfg.t}`;
+  }
+  $('#confirm').addEventListener('click', () => {
+    const w = $('#wish').value.trim();
+    $('#facts').innerHTML =
+      `<div>${ICON.cal}<span>${fmtDay(pick.ds)}</span></div>` +
+      `<div>${ICON.clock}<span>${pick.ts}</span></div>` +
+      `<div>${ICON.spark}<span>${[...chosenPlans].join(' · ')}</span></div>` +
+      (w ? `<div>${ICON.note}<span style="font-weight:500;font-style:italic"></span></div>` : '');
+    if (w) $('#facts div:last-child span').textContent = `«${w}»`;
+    $('#letter-body').textContent = cfg.l || 'Bu oqshom biz uchun ajoyib xotiraga aylanishiga ishonaman.';
+
+    const start = parseDT(pick.ds, pick.ts), end = new Date(start.getTime() + 2 * 3600e3);
+    const g = d => `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}T${pad(d.getHours())}${pad(d.getMinutes())}00`;
+    $('#gcal').href = 'https://calendar.google.com/calendar/render?action=TEMPLATE' +
+      '&text=' + encodeURIComponent(`${cfg.t} va ${cfg.f} ❤ Uchrashuv`) +
+      '&dates=' + g(start) + '/' + g(end) +
+      '&details=' + encodeURIComponent([...chosenPlans].join(', ') + (w ? `\n${w}` : ''));
+    const pageUrl = location.href.split('#')[0] + (location.hash || '');
+    $('#tg-share').href = 'https://t.me/share/url?url=' + encodeURIComponent(pageUrl) + '&text=' + encodeURIComponent(answerText());
+
+    clearInterval(cdTimer);
+    const tick = () => {
+      let ms = Math.max(0, start - new Date());
+      const d = Math.floor(ms / 864e5); ms -= d * 864e5; const h = Math.floor(ms / 36e5); ms -= h * 36e5;
+      const m = Math.floor(ms / 6e4); const s = Math.floor((ms - m * 6e4) / 1e3);
+      $('#cd-d').textContent = d; $('#cd-h').textContent = pad(h); $('#cd-m').textContent = pad(m); $('#cd-s').textContent = pad(s);
+    };
+    tick(); cdTimer = setInterval(tick, 1000);
+    sfx.yes(); go('s-letter');
+    setTimeout(() => burst(innerWidth / 2, innerHeight * .2, 100, ['#9B1C38', '#E9B872', '#F3C6CF']), 300);
+  });
+  $('#copy-answer').addEventListener('click', () => copy(answerText(), 'Javob nusxalandi'));
+
+  /* ---------- 0. setup ---------- */
+  function renderSetup() {
+    $('#f-to').value = cfg.personal ? cfg.t : ''; $('#f-from').value = cfg.personal ? cfg.f : ''; $('#f-letter').value = cfg.personal ? (cfg.l || '') : '';
+    const box = $('#f-dates'); box.innerHTML = '';
+    for (let i = 0; i < 3; i++) {
+      const [ds, ts] = cfg.d[i] || DEFAULT.d[i];
+      const r = document.createElement('div'); r.className = 'dt-row';
+      r.innerHTML = `<input class="field" type="date" id="f-d${i}" aria-label="${i + 1}-sana" value="${ds}"><input class="field" type="time" id="f-t${i}" aria-label="${i + 1}-vaqt" value="${ts}">`;
+      box.appendChild(r);
+    }
+  }
+  $('#setup-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const t = $('#f-to').value.trim(), f = $('#f-from').value.trim();
+    if (!t || !f) { toast('Ikkala ismni ham yozing'); (t ? $('#f-from') : $('#f-to')).focus(); return; }
+    const d = [0, 1, 2].map(i => [$('#f-d' + i).value, $('#f-t' + i).value || '19:00']).filter(x => x[0]);
+    if (!d.length) { toast('Kamida bitta sanani belgilang'); return; }
+    const conf = { t, f, d, l: $('#f-letter').value.trim() };
+    const code = 't-' + b32enc(JSON.stringify(conf));
+    history.replaceState(null, '', '#' + code);
+    const url = location.href.split('#')[0].split('?')[0] + '#' + code;
+    $('#link-out').textContent = url;
+    $('#setup-result').hidden = false;
+    $('#copy-link').onclick = () => copy(url, 'Havola nusxalandi');
+    $('#preview-link').onclick = () => { cfg = { ...DEFAULT, ...conf, personal: true }; start(); };
+    toast('Havola tayyor!');
+  });
+  $('#open-setup').addEventListener('click', () => { renderSetup(); go('s-setup'); history.replaceState(null, '', '#yaratish'); });
+
+  /* ---------- boot ---------- */
+  function resetFlow() {
+    done = false; stage.classList.remove('merged'); setProg(0);
+    tries = 0; $('#counter').textContent = 'Rad etish: 0'; yes.style.setProperty('--s', 1); $('#tease').textContent = '';
+    no.hidden = false; no.classList.remove('loose'); no.style.cssText = ''; bubble && bubble.remove();
+    pick = null; $('#to-what').disabled = true; chosenPlans.clear(); $$('.chip').forEach(c => c.setAttribute('aria-pressed', 'false'));
+    $('#confirm').disabled = true; $('#wish').value = ''; $('#wish-n').textContent = '0';
+  }
+  function start() {
+    applyNames(); renderDates(); resetFlow();
+    if (location.hash === '#yaratish') { renderSetup(); go('s-setup'); } else go('s-intro');
+  }
+  addEventListener('hashchange', () => { if (/^#t-/.test(location.hash)) { cfg = readConfig(); start(); } else if (location.hash === '#yaratish') { renderSetup(); go('s-setup'); } });
+  start();
+})();
+</script>
+
+</html>
